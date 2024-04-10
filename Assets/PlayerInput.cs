@@ -44,6 +44,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwapCamera"",
+                    ""type"": ""Button"",
+                    ""id"": ""54422668-30df-4e94-8cf0-280938f56964"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -134,6 +143,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e7470dff-2093-4cc2-ac89-5169615f79f8"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwapCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -144,6 +164,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_Deplacement = m_Movement.FindAction("Deplacement", throwIfNotFound: true);
         m_Movement_Jump = m_Movement.FindAction("Jump", throwIfNotFound: true);
+        m_Movement_SwapCamera = m_Movement.FindAction("SwapCamera", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -207,12 +228,14 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
     private readonly InputAction m_Movement_Deplacement;
     private readonly InputAction m_Movement_Jump;
+    private readonly InputAction m_Movement_SwapCamera;
     public struct MovementActions
     {
         private @PlayerInput m_Wrapper;
         public MovementActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Deplacement => m_Wrapper.m_Movement_Deplacement;
         public InputAction @Jump => m_Wrapper.m_Movement_Jump;
+        public InputAction @SwapCamera => m_Wrapper.m_Movement_SwapCamera;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -228,6 +251,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @SwapCamera.started += instance.OnSwapCamera;
+            @SwapCamera.performed += instance.OnSwapCamera;
+            @SwapCamera.canceled += instance.OnSwapCamera;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
@@ -238,6 +264,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @SwapCamera.started -= instance.OnSwapCamera;
+            @SwapCamera.performed -= instance.OnSwapCamera;
+            @SwapCamera.canceled -= instance.OnSwapCamera;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -259,5 +288,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     {
         void OnDeplacement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnSwapCamera(InputAction.CallbackContext context);
     }
 }

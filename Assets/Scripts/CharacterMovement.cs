@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -19,15 +20,18 @@ public class PlayerMovement : MonoBehaviour
     float turnSmoothVelocity;
     [Tooltip("Gère la force du saut du joueur")]
     public float jumpForce;
-    public bool linkedToGear;
-    public GameObject linkedGear;
     public bool ground;
+    public CinemachineVirtualCamera vcam;
+    public CinemachineFreeLook flcam;
+
+    public bool fps = false;
     private void Awake()
     {
         controles = new PlayerInput();
         controles.Movement.Deplacement.performed += ctx => Direction2 = controles.Movement.Deplacement.ReadValue<Vector2>();
         controles.Movement.Deplacement.canceled += ctx => Direction2 = Vector2.zero;
         controles.Movement.Jump.performed += ctx => Jump();
+        controles.Movement.SwapCamera.performed += ctx => Swap();
 
     }
     private void OnEnable()
@@ -46,13 +50,25 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {/*
         Cursor.visible = false;*/
+        
         Vector3 Direction = new Vector3(Direction2.x, 0, Direction2.y).normalized;
         if (Direction.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(Direction.x, Direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            Vector3 moveDir = Vector3.zero;
+            if(!fps)
+            {
+                float targetAngle = Mathf.Atan2(Direction.x, Direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+                moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            }
+            else
+            {
+                Vector3 moveDirFor = new Vector3(transform.forward.x * Direction.x, 0, transform.forward.z * Direction.x).normalized;
+                Vector3 moveDirRight = new Vector3(transform.right.x * Direction.y, 0, transform.right.z * Direction.y).normalized;
+                moveDir = (moveDirFor + moveDirRight); 
+            }
+            
             characterController.Move(moveDir.normalized * speed * Time.deltaTime);
 
         }
@@ -104,6 +120,22 @@ public class PlayerMovement : MonoBehaviour
             ground = false;
             Debug.Log("catouchepas");
         }
+    }
+
+    void Swap()
+    {
+        if(fps)
+        {
+           
+            vcam.Priority = 4;
+            flcam.Priority = 10;
+        }
+        else
+        {
+            vcam.Priority = 10;
+            flcam.Priority = 4;
+        }
+        fps = !fps;
     }
 
   
