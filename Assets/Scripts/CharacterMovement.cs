@@ -64,9 +64,9 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                Vector3 moveDirFor = new Vector3(transform.forward.x * Direction.x, 0, transform.forward.z * Direction.x).normalized;
-                Vector3 moveDirRight = new Vector3(transform.right.x * Direction.y, 0, transform.right.z * Direction.y).normalized;
-                moveDir = (moveDirFor + moveDirRight); 
+                
+                moveDir = new Vector3(cam.transform.forward.x,0,cam.transform.forward.z).normalized * Direction2.y;
+                moveDir += new Vector3(cam.transform.right.x, 0, cam.transform.right.z).normalized * Direction2.x;
             }
             
             characterController.Move(moveDir.normalized * speed * Time.deltaTime);
@@ -112,13 +112,11 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -transform.up, out hit, 2f))
         {
-            Debug.Log("catouche");
             ground = true;
         }
         else
         {
             ground = false;
-            Debug.Log("catouchepas");
         }
     }
 
