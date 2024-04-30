@@ -18,7 +18,7 @@ public class GearLinkMotor : GearScriptLink
 
     public override void Turn(float speed)
     {
-        transform.RotateAround(transform.position, transform.up, Time.deltaTime * speed);
+        transform.RotateAround(transform.position, transform.forward, Time.deltaTime * speed);
     }
     public override void Linking(bool AR)
     {
@@ -28,8 +28,9 @@ public class GearLinkMotor : GearScriptLink
 
             if (collider.gameObject.layer == 6)
             {
-                if (AR == true && !GetComponent<GearScriptLink>().Linked.Contains(gameObject) && collider.gameObject != gameObject)
+                if (AR == true && !Linked.Contains(gameObject) && collider.gameObject != gameObject)
                 {
+                    
                     Linked.Add(collider.gameObject);
                     if (!collider.GetComponent<GearScriptLink>().Linked.Contains(gameObject))
                         collider.GetComponent<GearScriptLink>().Linked.Add(gameObject);

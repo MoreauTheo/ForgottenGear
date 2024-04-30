@@ -53,6 +53,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HorizontalLook"",
+                    ""type"": ""Value"",
+                    ""id"": ""fe933a26-6d16-447a-af07-a51045249115"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -154,6 +163,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""SwapCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88e1aba9-aa7e-4942-904c-c3b702c41616"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HorizontalLook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -165,6 +185,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Movement_Deplacement = m_Movement.FindAction("Deplacement", throwIfNotFound: true);
         m_Movement_Jump = m_Movement.FindAction("Jump", throwIfNotFound: true);
         m_Movement_SwapCamera = m_Movement.FindAction("SwapCamera", throwIfNotFound: true);
+        m_Movement_HorizontalLook = m_Movement.FindAction("HorizontalLook", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -229,6 +250,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Movement_Deplacement;
     private readonly InputAction m_Movement_Jump;
     private readonly InputAction m_Movement_SwapCamera;
+    private readonly InputAction m_Movement_HorizontalLook;
     public struct MovementActions
     {
         private @PlayerInput m_Wrapper;
@@ -236,6 +258,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Deplacement => m_Wrapper.m_Movement_Deplacement;
         public InputAction @Jump => m_Wrapper.m_Movement_Jump;
         public InputAction @SwapCamera => m_Wrapper.m_Movement_SwapCamera;
+        public InputAction @HorizontalLook => m_Wrapper.m_Movement_HorizontalLook;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -254,6 +277,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @SwapCamera.started += instance.OnSwapCamera;
             @SwapCamera.performed += instance.OnSwapCamera;
             @SwapCamera.canceled += instance.OnSwapCamera;
+            @HorizontalLook.started += instance.OnHorizontalLook;
+            @HorizontalLook.performed += instance.OnHorizontalLook;
+            @HorizontalLook.canceled += instance.OnHorizontalLook;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
@@ -267,6 +293,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @SwapCamera.started -= instance.OnSwapCamera;
             @SwapCamera.performed -= instance.OnSwapCamera;
             @SwapCamera.canceled -= instance.OnSwapCamera;
+            @HorizontalLook.started -= instance.OnHorizontalLook;
+            @HorizontalLook.performed -= instance.OnHorizontalLook;
+            @HorizontalLook.canceled -= instance.OnHorizontalLook;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -289,5 +318,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnDeplacement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnSwapCamera(InputAction.CallbackContext context);
+        void OnHorizontalLook(InputAction.CallbackContext context);
     }
 }

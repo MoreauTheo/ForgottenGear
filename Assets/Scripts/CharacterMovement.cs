@@ -23,7 +23,8 @@ public class PlayerMovement : MonoBehaviour
     public bool ground;
     public CinemachineVirtualCamera vcam;
     public CinemachineFreeLook flcam;
-
+    private Vector2 lookDelta;
+    public float lookSpeed;
     public bool fps = false;
     private void Awake()
     {
@@ -32,7 +33,8 @@ public class PlayerMovement : MonoBehaviour
         controles.Movement.Deplacement.canceled += ctx => Direction2 = Vector2.zero;
         controles.Movement.Jump.performed += ctx => Jump();
         controles.Movement.SwapCamera.performed += ctx => Swap();
-
+        controles.Movement.HorizontalLook.performed += ctx => lookDelta = controles.Movement.HorizontalLook.ReadValue<Vector2>();
+        controles.Movement.HorizontalLook.canceled += ctx => lookDelta = Vector2.zero;
     }
     private void OnEnable()
     {
@@ -46,12 +48,15 @@ public class PlayerMovement : MonoBehaviour
     {
     }
 
-    // Update is called once per frame
     void Update()
-    {/*
-        Cursor.visible = false;*/
-        
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        if (fps)
+            transform.Rotate(0, lookDelta.x * Time.deltaTime * lookSpeed, 0);
+
         Vector3 Direction = new Vector3(Direction2.x, 0, Direction2.y).normalized;
+
         if (Direction.magnitude >= 0.1f)
         {
             Vector3 moveDir = Vector3.zero;
@@ -64,7 +69,8 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                
+               
+
                 moveDir = new Vector3(cam.transform.forward.x,0,cam.transform.forward.z).normalized * Direction2.y;
                 moveDir += new Vector3(cam.transform.right.x, 0, cam.transform.right.z).normalized * Direction2.x;
             }
