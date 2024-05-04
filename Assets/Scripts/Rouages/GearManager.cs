@@ -10,14 +10,16 @@ public class GearManager : MonoBehaviour
     public List<GameObject> Used;
     public List<GameObject> Motors;
     public List<GameObject> chainStuckUsed;
+    public List<GameObject> allTriggerGear;
     void Start()
     {
 
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
+        allTriggerGear.Clear();
         Used = new List<GameObject>();
         foreach (GameObject gear in AllGers)
         {
@@ -30,6 +32,7 @@ public class GearManager : MonoBehaviour
                     foreach (GameObject connected in gear.GetComponent<GearLinkMotor>().Linked)
                     {
                         Propagate(connected, gear.GetComponent<GearLinkMotor>().Speed);
+                        
                     }
                 }
             }
@@ -45,7 +48,11 @@ public class GearManager : MonoBehaviour
             Used.Add(childToTurn);
             foreach (GameObject LinkedCogs in childToTurn.gameObject.GetComponent<GearScriptLink>().Linked)
             {
-                Propagate(LinkedCogs, -SpeedOfParent);
+                Propagate(LinkedCogs, -SpeedOfParent); if (LinkedCogs.tag == "TriggerGear")
+                {
+                    allTriggerGear.Add(LinkedCogs);
+
+                }
             }
         }
     }

@@ -37,7 +37,6 @@ public class PickGear : MonoBehaviour
                 gearHolded.transform.position = new Vector3(Mathf.Round(hitM.point.x),Mathf.Ceil(hitM.point.y), Mathf.Round(hitM.point.z));
 
                 gearHolded.transform.LookAt(gearHolded.transform.position - new Vector3(hitM.normal.x,hitM.normal.y, hitM.normal.z));
-                Debug.Log(hitM.point.y);
                 
 
 
