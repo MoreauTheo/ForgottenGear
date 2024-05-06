@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 lookDelta;
     public float lookSpeed;
     public bool fps = false;
+    public GameObject character;
     private void Awake()
     {
         controles = new PlayerInput();
@@ -140,7 +141,23 @@ public class PlayerMovement : MonoBehaviour
             flcam.Priority = 4;
         }
         fps = !fps;
+        StartCoroutine(CharacterDisapear());
     }
 
-  
+
+    IEnumerator CharacterDisapear()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (character.activeSelf == true)
+        {
+            character.SetActive(false);
+        }
+        else
+        {
+            character.SetActive(true);
+
+        }
+    }
+
+
 }

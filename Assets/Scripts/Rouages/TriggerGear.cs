@@ -36,19 +36,34 @@ public class TriggerGear : GearScriptLink
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 0.6f);
         foreach (Collider collider in hitColliders)
         {
-            if (collider.gameObject.layer == 6)
+            Debug.Log(collider.gameObject.name);
+            if (collider.gameObject.layer == 6 && collider.gameObject != gameObject)
             {
-                if (AR == true && !Linked.Contains(gameObject) && collider.gameObject != gameObject)
+                if (AR == true)
                 {
-                    Linked.Add(collider.gameObject);
-                    if(!collider.GetComponent<GearScriptLink>().Linked.Contains(gameObject))
-                        collider.GetComponent<GearScriptLink>().Linked.Add(gameObject);
-                }
-                else if (collider.GetComponent<GearScriptLink>().Linked.Contains(this.gameObject))
-                {
-                    Linked.Remove(collider.gameObject);
+                    if (!Linked.Contains(collider.gameObject))
+                    {
+                        Linked.Add(collider.gameObject);
 
-                    collider.GetComponent<GearScriptLink>().Linked.Remove(this.gameObject);
+                    }
+                    if (!collider.GetComponent<GearScriptLink>().Linked.Contains(gameObject))
+                    {
+                        collider.GetComponent<GearScriptLink>().Linked.Add(gameObject);
+                    }
+
+                }
+                else
+                {
+                    if (Linked.Contains(collider.gameObject))
+                    {
+                        Linked.Remove(collider.gameObject);
+
+                    }
+                    if (collider.GetComponent<GearScriptLink>().Linked.Contains(gameObject))
+                    {
+                        collider.GetComponent<GearScriptLink>().Linked.Remove(gameObject);
+
+                    }
 
                 }
             }
