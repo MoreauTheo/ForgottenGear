@@ -81,7 +81,7 @@ public class PickGear : MonoBehaviour
            
             RaycastHit hit = RaycastingGear();
 
-            if (hit.collider != null)
+            if (hit.collider != null && hit.collider.gameObject.tag != "TriggerGear")
             {
                 gearHolded = hit.collider.gameObject;
                 gearHolded.GetComponent<GearScriptLink>().Linking(false);
