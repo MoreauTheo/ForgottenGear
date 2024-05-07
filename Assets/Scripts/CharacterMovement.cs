@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     public float lookSpeed;
     public bool fps = false;
     public GameObject character;
+    public GameObject reticule;
     private void Awake()
     {
         controles = new PlayerInput();
@@ -151,10 +152,13 @@ public class PlayerMovement : MonoBehaviour
         if (character.activeSelf == true)
         {
             character.SetActive(false);
+            reticule.SetActive(true);
         }
         else
         {
             character.SetActive(true);
+            reticule.SetActive(false);
+
 
         }
     }
