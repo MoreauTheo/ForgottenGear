@@ -6,7 +6,7 @@ public class PassiveGear : GearScriptLink
 {
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Linking(true);
 
@@ -31,7 +31,6 @@ public class PassiveGear : GearScriptLink
         Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward * 0.5f, 0.6f);
         foreach (Collider collider in hitColliders)
         {
-            Debug.Log(collider.gameObject.name);
             if (collider.gameObject.layer == 6 && collider.gameObject != gameObject)
             {
                 if (AR == true)
@@ -65,12 +64,7 @@ public class PassiveGear : GearScriptLink
         }
     }
 
-    void OnDrawGizmosSelected()
-    {
-        // Draw a yellow sphere at the transform's position
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(transform.position+transform.forward*0.5f, 0.6f);
-    }
+   
 
 
 }

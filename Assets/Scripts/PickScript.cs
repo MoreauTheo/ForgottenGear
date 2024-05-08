@@ -11,6 +11,10 @@ public class PickGear : MonoBehaviour
     public float distanceHold;
     public bool Holding;
     public GameObject gearHolded;
+    public GameObject PrefabPassif;
+    public PlayerMovement characterMovement;
+    public GearManager gearManager;
+    public int numberGear;
     void Start()
     {
 
@@ -24,32 +28,27 @@ public class PickGear : MonoBehaviour
         {
             PickUp();
         }
+       
+
         if (Holding)
         {
             if (gearHolded != null)
             {
-                /*
-                Vector3 InFrontOfCameraPos = camera.position + (camera.forward * distanceHold);
-                gearHolded.transform.position = new Vector3(Mathf.Round(InFrontOfCameraPos.x), Mathf.Round(InFrontOfCameraPos.y), Mathf.Round(InFrontOfCameraPos.z));
-                distanceHold += Input.GetAxis("Mouse ScrollWheel") * 3;*/
                 RaycastHit hitM = RaycastingMur();
-                Debug.Log(hitM);
                 gearHolded.transform.position = new Vector3(Mathf.Round(hitM.point.x),Mathf.Ceil(hitM.point.y), Mathf.Round(hitM.point.z));
 
                 gearHolded.transform.LookAt(gearHolded.transform.position - new Vector3(hitM.normal.x,hitM.normal.y, hitM.normal.z));
-                
-
-
             }
         }
-        else
+        else if(numberGear >0) 
         {
-            if (gearHolded != null)
-                gearHolded.GetComponent<GearScriptLink>().Linking(true);
-
-            gearHolded = null;
-
+            gearHolded = Instantiate(PrefabPassif, transform.position, Quaternion.identity);
+            gearHolded.GetComponent<GearScriptLink>().Linking(false);
+            gearHolded.GetComponent<Collider>().enabled = false;
+            distanceHold = Vector3.Distance(gearHolded.transform.position, Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane)));
+            Holding = true;
         }
+
     }
     public RaycastHit RaycastingGear()
     {
@@ -75,20 +74,44 @@ public class PickGear : MonoBehaviour
     }
     public void PickUp()
     {
-
-        if (!Holding)
-        {
-           
-            RaycastHit hit = RaycastingGear();
-
-            if (hit.collider != null && hit.collider.gameObject.tag != "TriggerGear" && hit.collider.gameObject.tag != "GearMotor")
+        RaycastHit hit = RaycastingGear();
+        
+            if (hit.collider != null )
             {
-                gearHolded = hit.collider.gameObject;
-                gearHolded.GetComponent<GearScriptLink>().Linking(false);
-                distanceHold = Vector3.Distance(gearHolded.transform.position, Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane)));
+                if (hit.collider.gameObject.tag != "TriggerGear" && hit.collider.gameObject.tag != "GearMotor")
+                {
+                    hit.collider.GetComponent<GearScriptLink>().Linking(false);
+                    gearManager.AllGers.Remove(hit.collider.gameObject);
+                    numberGear++;
+                    Destroy(hit.collider.gameObject);
+                
+                }
+            }
+        else
+        {
+            RaycastHit hit2 = RaycastingMur();
+
+            if (hit2.collider != null)
+            {
+                
+                    if (gearHolded != null)
+                        gearHolded.GetComponent<GearScriptLink>().Linking(true);
+
+                gearHolded.GetComponent<Collider>().enabled = true;
+
+                gearHolded = null;
+                Holding = false;
+                numberGear--;
+                if (numberGear < 0)
+                {
+                    numberGear = 0;
+                }
+                
+
+
             }
         }
-        Holding = !Holding;
+
     }
 
 }

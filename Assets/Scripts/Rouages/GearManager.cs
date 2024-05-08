@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 
 public class GearManager : MonoBehaviour
 {
@@ -31,8 +32,12 @@ public class GearManager : MonoBehaviour
                     Used.Add(gear);
                     foreach (GameObject connected in gear.GetComponent<GearLinkMotor>().Linked)
                     {
-                        Propagate(connected, gear.GetComponent<GearLinkMotor>().Speed);
-                        
+                        if(connected != null)
+                        {
+                            Propagate(connected, gear.GetComponent<GearLinkMotor>().Speed);
+
+                        }
+
                     }
                 }
             }
@@ -48,7 +53,8 @@ public class GearManager : MonoBehaviour
             Used.Add(childToTurn);
             foreach (GameObject LinkedCogs in childToTurn.gameObject.GetComponent<GearScriptLink>().Linked)
             {
-                Propagate(LinkedCogs, -SpeedOfParent); if (LinkedCogs.tag == "TriggerGear")
+                Propagate(LinkedCogs, -SpeedOfParent); 
+                if (LinkedCogs.tag == "TriggerGear")
                 {
                     allTriggerGear.Add(LinkedCogs);
 

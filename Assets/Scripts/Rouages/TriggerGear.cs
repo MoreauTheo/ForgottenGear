@@ -8,7 +8,7 @@ public class TriggerGear : GearScriptLink
     public bool lastTurning;
     public GameObject porte;
     public bool call;
-    void Start()
+    void Awake()
     {
         Linking(true);
 
