@@ -92,10 +92,10 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 168
   baseHeight:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   maximumHeight:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 800
   density:
     m_OverrideState: 1
@@ -122,11 +122,11 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1
   maxSteps:
-    m_OverrideState: 1
-    m_Value: 74
+    m_OverrideState: 0
+    m_Value: 128
   blurIterations:
     m_OverrideState: 0
-    m_Value: 1
+    m_Value: 4
   enabled:
     m_OverrideState: 1
     m_Value: 1
