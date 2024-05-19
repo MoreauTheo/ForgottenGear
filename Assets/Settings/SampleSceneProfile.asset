@@ -102,7 +102,7 @@ MonoBehaviour:
     m_Value: 0.333
   attenuationDistance:
     m_OverrideState: 1
-    m_Value: 4
+    m_Value: 6.51
   tint:
     m_OverrideState: 1
     m_Value: {r: 1, g: 0.8826938, b: 0.43867922, a: 1}
@@ -123,7 +123,7 @@ MonoBehaviour:
     m_Value: 1
   maxSteps:
     m_OverrideState: 1
-    m_Value: 72
+    m_Value: 74
   blurIterations:
     m_OverrideState: 0
     m_Value: 1
