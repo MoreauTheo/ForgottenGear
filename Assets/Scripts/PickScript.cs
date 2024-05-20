@@ -98,7 +98,7 @@ public class PickGear : MonoBehaviour
                         gearHolded.GetComponent<GearScriptLink>().Linking(true);
 
                 gearHolded.GetComponent<Collider>().enabled = true;
-
+                gearHolded.transform.parent = hit2.collider.transform;
                 gearHolded = null;
                 Holding = false;
                 numberGear--;

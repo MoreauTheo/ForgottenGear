@@ -11,6 +11,7 @@ public class TriggerGear : GearScriptLink
     void Awake()
     {
         Linking(true);
+        GameObject.Find("GearManager").GetComponent<GearManager>().AllGers.Add(this.gameObject);
 
     }
 

@@ -8,6 +8,8 @@ public class GearLinkMotor : GearScriptLink
     void Start()
     {
         Linking(true);
+        GameObject.Find("GearManager").GetComponent<GearManager>().AllGers.Add(this.gameObject);
+
     }
 
     // Update is called once per frame
@@ -28,7 +30,7 @@ public class GearLinkMotor : GearScriptLink
 
             if (collider.gameObject.layer == 6)
             {
-                if (AR == true && !Linked.Contains(gameObject) && collider.gameObject != gameObject)
+                if (AR == true && !Linked.Contains(gameObject) && collider.gameObject != gameObject && !Linked.Contains(collider.gameObject))
                 {
                     
                     Linked.Add(collider.gameObject);

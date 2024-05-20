@@ -53,12 +53,16 @@ public class GearManager : MonoBehaviour
             Used.Add(childToTurn);
             foreach (GameObject LinkedCogs in childToTurn.gameObject.GetComponent<GearScriptLink>().Linked)
             {
+                if(LinkedCogs.tag != "GearMotor")
+                {
                 Propagate(LinkedCogs, -SpeedOfParent); 
                 if (LinkedCogs.tag == "TriggerGear")
                 {
                     allTriggerGear.Add(LinkedCogs);
 
                 }
+                }
+
             }
         }
     }
