@@ -75,7 +75,7 @@ MonoBehaviour:
   rounded:
     m_OverrideState: 0
     m_Value: 0
---- !u!114 &-198459156009486450
+--- !u!114 &-6856831272622168466
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,13 +90,13 @@ MonoBehaviour:
   active: 1
   distance:
     m_OverrideState: 0
-    m_Value: 168
+    m_Value: 128
   baseHeight:
     m_OverrideState: 0
     m_Value: 0
   maximumHeight:
     m_OverrideState: 0
-    m_Value: 800
+    m_Value: 50
   density:
     m_OverrideState: 1
     m_Value: 0.333
@@ -105,7 +105,7 @@ MonoBehaviour:
     m_Value: 6.51
   tint:
     m_OverrideState: 1
-    m_Value: {r: 1, g: 0.8826938, b: 0.43867922, a: 1}
+    m_Value: {r: 0.97926635, g: 0.9811321, b: 0.5970096, a: 1}
   mainLightAnisotropy:
     m_OverrideState: 0
     m_Value: 0.4
@@ -114,19 +114,19 @@ MonoBehaviour:
     m_Value: 0.15
   additionalLightsAnisotropy:
     m_OverrideState: 0
-    m_Value: 0.947
+    m_Value: 0.25
   additionalLightsScattering:
     m_OverrideState: 1
     m_Value: 1.2
   additionalLightsRadius:
     m_OverrideState: 0
-    m_Value: 1
+    m_Value: 0.5
   maxSteps:
-    m_OverrideState: 0
-    m_Value: 128
+    m_OverrideState: 1
+    m_Value: 64
   blurIterations:
     m_OverrideState: 0
-    m_Value: 4
+    m_Value: 2
   enabled:
     m_OverrideState: 1
     m_Value: 1
@@ -145,4 +145,4 @@ MonoBehaviour:
   components:
   - {fileID: -7893295128165547882}
   - {fileID: -7011558710299706105}
-  - {fileID: -198459156009486450}
+  - {fileID: -6856831272622168466}

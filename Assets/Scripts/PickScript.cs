@@ -3,7 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PickGear : MonoBehaviour
 {
@@ -15,6 +17,7 @@ public class PickGear : MonoBehaviour
     public PlayerMovement characterMovement;
     public GearManager gearManager;
     public int numberGear;
+    public TextMeshProUGUI displayNb;
     void Start()
     {
 
@@ -23,6 +26,7 @@ public class PickGear : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        displayNb.text = numberGear.ToString();
         Debug.DrawRay(camera.position, camera.forward * 100, Color.red);
         if (Input.GetMouseButtonDown(0))
         {
@@ -34,10 +38,19 @@ public class PickGear : MonoBehaviour
         {
             if (gearHolded != null)
             {
+                gearHolded.transform.position = new Vector3(-1, -1, -1);
                 RaycastHit hitM = RaycastingMur();
-                gearHolded.transform.position = new Vector3(Mathf.Round(hitM.point.x),Mathf.Ceil(hitM.point.y), Mathf.Round(hitM.point.z));
-
                 gearHolded.transform.LookAt(gearHolded.transform.position - new Vector3(hitM.normal.x,hitM.normal.y, hitM.normal.z));
+                if(hitM.normal.y != 1)
+                {
+                    gearHolded.transform.position = new Vector3(Mathf.Round(hitM.point.x), Mathf.Ceil(hitM.point.y - 0.5f), Mathf.Round(hitM.point.z));
+                }
+                else
+                {
+                    gearHolded.transform.position = new Vector3(Mathf.Round(hitM.point.x), Mathf.Ceil(hitM.point.y), Mathf.Round(hitM.point.z));
+                    Debug.Log(hitM.point.y);
+                }
+
             }
         }
         else if(numberGear >0) 
@@ -75,8 +88,9 @@ public class PickGear : MonoBehaviour
     public void PickUp()
     {
         RaycastHit hit = RaycastingGear();
-        
-            if (hit.collider != null )
+        //if (hit.collider.tag != "barre")
+        //{
+            if (hit.collider != null)
             {
                 if (hit.collider.gameObject.tag != "TriggerGear" && hit.collider.gameObject.tag != "GearMotor")
                 {
@@ -84,34 +98,34 @@ public class PickGear : MonoBehaviour
                     gearManager.AllGers.Remove(hit.collider.gameObject);
                     numberGear++;
                     Destroy(hit.collider.gameObject);
-                
+
                 }
             }
-        else
-        {
-            RaycastHit hit2 = RaycastingMur();
-
-            if (hit2.collider != null)
+            else
             {
-                
+                RaycastHit hit2 = RaycastingMur();
+
+                if (hit2.collider != null)
+                {
+
                     if (gearHolded != null)
                         gearHolded.GetComponent<GearScriptLink>().Linking(true);
 
-                gearHolded.GetComponent<Collider>().enabled = true;
-                gearHolded.transform.parent = hit2.collider.transform;
-                gearHolded = null;
-                Holding = false;
-                numberGear--;
-                if (numberGear < 0)
-                {
-                    numberGear = 0;
+                    gearHolded.GetComponent<Collider>().enabled = true;
+                    gearHolded.transform.parent = hit2.collider.transform;
+                    gearHolded = null;
+                    Holding = false;
+                    numberGear--;
+                    if (numberGear < 0)
+                    {
+                        numberGear = 0;
+                    }
+
+
+
                 }
-                
-
-
             }
-        }
-
+        //}
     }
 
 }
