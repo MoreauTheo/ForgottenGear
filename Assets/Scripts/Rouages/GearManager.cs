@@ -12,6 +12,7 @@ public class GearManager : MonoBehaviour
     public List<GameObject> Motors;
     public List<GameObject> chainStuckUsed;
     public List<GameObject> allTriggerGear;
+    public bool MRGB;
     void Start()
     {
 
@@ -42,8 +43,28 @@ public class GearManager : MonoBehaviour
                 }
             }
         }
+
+        if(Input.GetKey(KeyCode.R)&& Input.GetKey(KeyCode.G)&& Input.GetKey(KeyCode.B))
+        {
+            if (!MRGB)
+            {
+                MRGB = true;
+                GoRGB();
+            }
+        }
     }
 
+    public void GoRGB()
+    {
+        foreach(GameObject ger in AllGers)
+        {
+            if(ger.tag == "Untagged")
+            {
+                ger.GetComponent<PassiveGear>().RGB = true;
+                ger.GetComponent<PassiveGear>().hue = Random.Range(0f, 1f);
+            }
+        }
+    }
 
     public void Propagate(GameObject childToTurn, float SpeedOfParent)
     {

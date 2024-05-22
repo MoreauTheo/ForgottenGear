@@ -5,18 +5,25 @@ using UnityEngine;
 public class PassiveGear : GearScriptLink
 {
 
-    // Start is called before the first frame update
+    public bool RGB;
+    public float hue;
     void Awake()
     {
+
         Linking(true);
         GameObject.Find("GearManager").GetComponent<GearManager>().AllGers.Add(this.gameObject);
     }
 
     // Update is called once per frame
-    void 
-        Update()
+    void Update()
     {
-
+        if (RGB)
+        {
+            if (hue >= 1)
+            { hue = 0; }
+            hue += Time.deltaTime / 2;
+            GetComponent<Renderer>().materials[1].color = Color.HSVToRGB(hue, 1, 1);
+        }
     }
 
     public override void Turn(float speed)

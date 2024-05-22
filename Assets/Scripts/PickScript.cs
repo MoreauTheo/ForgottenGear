@@ -41,7 +41,10 @@ public class PickGear : MonoBehaviour
                 gearHolded.transform.position = new Vector3(-1, -1, -1);
                 RaycastHit hitM = RaycastingMur();
                 gearHolded.transform.LookAt(gearHolded.transform.position - new Vector3(hitM.normal.x,hitM.normal.y, hitM.normal.z));
-                if(hitM.normal.y != 1)
+                Color colorF = Color.white;
+                colorF.a = 0.25f;
+                gearHolded.GetComponent<Renderer>().materials[1].color = colorF;
+                if (hitM.normal.y != 1)
                 {
                     gearHolded.transform.position = new Vector3(Mathf.Round(hitM.point.x), Mathf.Ceil(hitM.point.y - 0.5f), Mathf.Round(hitM.point.z));
                 }
@@ -70,7 +73,7 @@ public class PickGear : MonoBehaviour
         Vector3 worldMousePosFar = Camera.main.ScreenToWorldPoint(screenMousePosFar);
         Vector3 worldMousePosNear = Camera.main.ScreenToWorldPoint(screenMousePosNear);
         RaycastHit hit;
-        Physics.Raycast(worldMousePosNear, worldMousePosFar - worldMousePosNear, out hit, Mathf.Infinity, LayerMask.GetMask("Gear"));
+        Physics.Raycast(worldMousePosNear, worldMousePosFar - worldMousePosNear, out hit, 7, LayerMask.GetMask("Gear"));
         return hit;
     }
 
@@ -82,7 +85,7 @@ public class PickGear : MonoBehaviour
         Vector3 worldMousePosFar = Camera.main.ScreenToWorldPoint(screenMousePosFar);
         Vector3 worldMousePosNear = Camera.main.ScreenToWorldPoint(screenMousePosNear);
         RaycastHit hitM;
-        Physics.Raycast(worldMousePosNear, worldMousePosFar - worldMousePosNear, out hitM, 10 , LayerMask.GetMask("Mur"));
+        Physics.Raycast(worldMousePosNear, worldMousePosFar - worldMousePosNear, out hitM, 6 , LayerMask.GetMask("Mur"));
         return hitM;
     }
     public void PickUp()
@@ -113,6 +116,7 @@ public class PickGear : MonoBehaviour
 
                     gearHolded.GetComponent<Collider>().enabled = true;
                     gearHolded.transform.parent = hit2.collider.transform;
+                    gearHolded.transform.GetComponent<Renderer>().materials[1].color = Color.white;
                     gearHolded = null;
                     Holding = false;
                     numberGear--;
