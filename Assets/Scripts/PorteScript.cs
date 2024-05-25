@@ -11,6 +11,7 @@ public class PorteScript : MonoBehaviour
     public bool open;
     public Animator animator;
     public GameObject hitBox;
+    public bool locked;
     //public bool porte2;
     void Start()
     {
@@ -21,7 +22,7 @@ public class PorteScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        open = true;
+       open = true;
        foreach (GameObject trigger in triggerList)
        {
             if(!manager.GetComponent<GearManager>().allTriggerGear.Contains(trigger)) 
@@ -29,32 +30,19 @@ public class PorteScript : MonoBehaviour
                 open = false;
             }
        }
-
+       
+       if(!locked)
+        {
 
         hitBox.SetActive(!open);
-       // if(!porte2)
-        //{
-            if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0)
-            {
-                animator.Play("Opening", -1, 0f);
-            }
-            else if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
-            {
-                animator.Play("Opening", -1, 1f);
-            }
-        /*}
-        else
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0)
         {
-            if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0)
-            {
-                animator.Play("Opening2", -1, 0f);
-            }
-            else if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
-            {
-                animator.Play("Opening2", -1, 1f);
-            }
-        }*/
-       
+            animator.Play("Opening", -1, 0f);
+        }
+        else if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+        {
+            animator.Play("Opening", -1, 1f);
+        }
 
         if (open)
         {
@@ -62,8 +50,28 @@ public class PorteScript : MonoBehaviour
         }
         else
         {
-           animator.SetFloat("SpeedMulti", -1);
+            animator.SetFloat("SpeedMulti", -1);
         }
+        }
+       
+
+    }
+
+    public void openDoor()
+    {
+
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0)
+        {
+            animator.Play("Opening", -1, 0f);
+        }
+        else if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+        {
+            animator.Play("Opening", -1, 1f);
+        }
+
+
+        animator.SetFloat("SpeedMulti", 1);
+        hitBox.SetActive(true);
 
 
     }

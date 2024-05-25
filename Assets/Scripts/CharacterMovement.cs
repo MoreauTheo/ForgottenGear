@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     public bool fps = false;
     public GameObject character;
     public GameObject reticule;
+    public Animator animator;
     private void Awake()
     {
         controles = new PlayerInput();
@@ -38,11 +39,11 @@ public class PlayerMovement : MonoBehaviour
         controles.Movement.HorizontalLook.performed += ctx => lookDelta = controles.Movement.HorizontalLook.ReadValue<Vector2>();
         controles.Movement.HorizontalLook.canceled += ctx => lookDelta = Vector2.zero;
     }
-    private void OnEnable()
+    public void OnEnable()
     {
         controles.Enable();
     }
-    private void OnDisable()
+    public void OnDisable()
     {
         controles.Disable();
     }
@@ -78,8 +79,14 @@ public class PlayerMovement : MonoBehaviour
             }
             
             characterController.Move(moveDir.normalized * speed * Time.deltaTime);
+            animator.SetBool("Walk", true);
+        }
+        else
+        {
+            animator.SetBool("Walk", false);
 
         }
+
         CheckGrounded();
         if (!ground)
         {
