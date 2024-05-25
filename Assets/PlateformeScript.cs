@@ -37,6 +37,8 @@ public class PlateformeScript : MonoBehaviour
             transform.position = new Vector3(transform.position.x, solHauteur, transform.position.z);
             foreach(GameObject go in Motor)
             {
+                GetComponent<Animator>().SetTrigger("Down");
+
                 go.GetComponent<GearScriptLink>().Linking(false);
 
                 go.GetComponent<GearScriptLink>().Linking(true);
