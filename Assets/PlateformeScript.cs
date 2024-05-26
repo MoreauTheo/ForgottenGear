@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class PlateformeScript : MonoBehaviour
 {
+    public AudioManager audioManager;
     public GameObject manager;
     public List<GameObject> triggerList;
     public bool open;
     public List <GameObject> Motor;
     public float solHauteur;
+    private bool once = false;
     void Start()
     {
         foreach(Transform go in transform)
@@ -34,10 +36,15 @@ public class PlateformeScript : MonoBehaviour
 
         if (open)
         {
-            transform.position = new Vector3(transform.position.x, solHauteur, transform.position.z);
-            foreach(GameObject go in Motor)
+            if(!once)
             {
-                GetComponent<Animator>().SetTrigger("Down");
+                audioManager.Play("PlateformeDown");
+                once = true;
+            }
+            transform.position = new Vector3(transform.position.x, solHauteur, transform.position.z);
+            GetComponent<Animator>().SetTrigger("Down");
+            foreach (GameObject go in Motor)
+            {
 
                 go.GetComponent<GearScriptLink>().Linking(false);
 
