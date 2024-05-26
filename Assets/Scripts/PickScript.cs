@@ -74,7 +74,7 @@ public class PickGear : MonoBehaviour
         Vector3 worldMousePosFar = Camera.main.ScreenToWorldPoint(screenMousePosFar);
         Vector3 worldMousePosNear = Camera.main.ScreenToWorldPoint(screenMousePosNear);
         RaycastHit hit;
-        Physics.Raycast(worldMousePosNear, worldMousePosFar - worldMousePosNear, out hit, 7);
+        Physics.Raycast(worldMousePosNear, worldMousePosFar - worldMousePosNear, out hit, 7, LayerMask.GetMask("Gear"));
         return hit;
         
     }
@@ -97,8 +97,7 @@ public class PickGear : MonoBehaviour
         //{
             if (hit.collider != null)
             {
-            if (hit.collider.gameObject.layer == 6)
-            {
+          
 
 
                 if (hit.collider.gameObject.tag != "TriggerGear" && hit.collider.gameObject.tag != "GearMotor")
@@ -138,7 +137,7 @@ public class PickGear : MonoBehaviour
 
                 }
             }
-        }
+        
            
         //}
     }

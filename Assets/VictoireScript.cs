@@ -8,6 +8,7 @@ public class VictoireScript : MonoBehaviour
 
     public GameObject manager;
     public List<GameObject> triggerList;
+    public GameObject trigger;
     public bool open;
     void Start()
     {
@@ -25,14 +26,9 @@ public class VictoireScript : MonoBehaviour
                 open = false;
             }
         }
+
+        trigger.SetActive(open);
         
-        if (open)
-        {
-            GetComponent<TextMeshProUGUI>().enabled = true;
-        }
-        else
-        {
-            GetComponent<TextMeshProUGUI>().enabled = false ;
-        }
+       
     }
 }
