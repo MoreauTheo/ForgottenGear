@@ -14,6 +14,7 @@ public class TutoHandler : MonoBehaviour
     public PorteScript porteScript;
     public CinemachineVirtualCamera doorCamera;
     public GameObject character;
+    public AudioManager audioManager;
     void Start()
     {
         
@@ -50,9 +51,9 @@ public class TutoHandler : MonoBehaviour
 
     private IEnumerator waitTransition()
     {
-
-        yield return new WaitForSeconds(1.2F);
+        yield return new WaitForSeconds(1.75F);
         porteScript.openDoor();
+        audioManager.Play("VictorySound");
 
         yield return new WaitForSeconds(1.5F);
         doorCamera.Priority = 1;

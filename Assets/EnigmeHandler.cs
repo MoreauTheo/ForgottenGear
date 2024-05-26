@@ -69,7 +69,7 @@ public class EnigmeHandler : MonoBehaviour
         yield return new WaitForSeconds(1);
 
         playerMovement.OnEnable();
-        canvas.SetActive(false);
+        canvas.SetActive(true);
         if (playerMovement.fps)
         {
             character.SetActive(false);

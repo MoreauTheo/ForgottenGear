@@ -25,7 +25,6 @@ public class PassiveGear : GearScriptLink
             GetComponent<Renderer>().materials[1].color = Color.HSVToRGB(hue, 1, 1);
         }
     }
-
     public override void Turn(float speed)
     {
         transform.RotateAround(transform.position, transform.forward, Time.deltaTime * speed);

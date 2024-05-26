@@ -18,6 +18,7 @@ public class PickGear : MonoBehaviour
     public GearManager gearManager;
     public int numberGear;
     public TextMeshProUGUI displayNb;
+    public AudioManager audioManager;
     void Start()
     {
 
@@ -73,8 +74,9 @@ public class PickGear : MonoBehaviour
         Vector3 worldMousePosFar = Camera.main.ScreenToWorldPoint(screenMousePosFar);
         Vector3 worldMousePosNear = Camera.main.ScreenToWorldPoint(screenMousePosNear);
         RaycastHit hit;
-        Physics.Raycast(worldMousePosNear, worldMousePosFar - worldMousePosNear, out hit, 7, LayerMask.GetMask("Gear"));
+        Physics.Raycast(worldMousePosNear, worldMousePosFar - worldMousePosNear, out hit, 7);
         return hit;
+        
     }
 
 
@@ -95,13 +97,19 @@ public class PickGear : MonoBehaviour
         //{
             if (hit.collider != null)
             {
+            if (hit.collider.gameObject.layer == 6)
+            {
+
+
                 if (hit.collider.gameObject.tag != "TriggerGear" && hit.collider.gameObject.tag != "GearMotor")
                 {
+                    Debug.Log(hit.collider.gameObject.name);
+
                     hit.collider.GetComponent<GearScriptLink>().Linking(false);
                     gearManager.AllGers.Remove(hit.collider.gameObject);
                     numberGear++;
                     Destroy(hit.collider.gameObject);
-
+                    audioManager.Play("PickUp");
                 }
             }
             else
@@ -113,6 +121,7 @@ public class PickGear : MonoBehaviour
 
                     if (gearHolded != null)
                         gearHolded.GetComponent<GearScriptLink>().Linking(true);
+                    audioManager.Play("Pose");
 
                     gearHolded.GetComponent<Collider>().enabled = true;
                     gearHolded.transform.parent = hit2.collider.transform;
@@ -129,6 +138,8 @@ public class PickGear : MonoBehaviour
 
                 }
             }
+        }
+           
         //}
     }
 
