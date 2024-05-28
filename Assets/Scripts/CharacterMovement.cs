@@ -102,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(ground)
         {
+            animator.SetTrigger("StartJump");
             verticalVelocity = jumpForce;
 
         }
@@ -113,6 +114,7 @@ public class PlayerMovement : MonoBehaviour
         if (verticalVelocity < 0)
         {
             verticalVelocity -= gravityScale * Time.deltaTime;
+            animator.SetBool("JumpAir", false);
 
         }
         else
@@ -125,12 +127,15 @@ public class PlayerMovement : MonoBehaviour
     void CheckGrounded()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, -transform.up, out hit, 2f))
+        if (Physics.Raycast(transform.position, -transform.up, out hit, 1f))
         {
             ground = true;
         }
         else
         {
+            animator.SetBool("Ariborne",true);
+            animator.SetBool("JumpAir",true);
+
             ground = false;
         }
     }
