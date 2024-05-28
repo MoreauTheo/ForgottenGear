@@ -133,7 +133,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            animator.SetBool("Ariborne",true);
             animator.SetBool("JumpAir",true);
 
             ground = false;
